@@ -6,6 +6,7 @@ import { Table } from "reactstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Navbar";
+import Loader from "./Loader";
 
 var options = {
   enableHighAccuracy: true,
@@ -147,8 +148,8 @@ export default class Home extends Component {
                   })}
                 </tbody>
               </Table>
-            ) : (
-              <div>Loading....</div>
+          ) : (
+            <div></div>
             )}
           </Card>
         </Container>
