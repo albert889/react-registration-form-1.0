@@ -67,6 +67,8 @@ export default class AddStudent extends Component {
             this.setState({ gender: (e.target.value), isError: false, errorMessage: ""})
         }
 
+        console.log(this.state.hobby)
+
         return (
             <div>
                 <Navbar value={false} />
@@ -99,7 +101,13 @@ export default class AddStudent extends Component {
                         </div>
                         <div className="mb-2">
                             <label className="form-label">Hobi</label>
-                            <textarea className="form-control shadow-none" value={this.state.hobby} id="hobby" rows="3" onChange={(e) => this.setState({ hobby: (e.target.value) })} required></textarea>
+                            <br/>
+                            <select onChange={(e) => this.setState({ hobby: (e.target.value) })} name="hobby" size="4">
+                                <option value="Membaca Buku"> Membaca Buku </option>
+                                <option value="Melukis"> Melukis </option>
+                                <option value="Menggambar"> Menggambar</option>
+                                <option value="Belajar"> Belajar </option>
+                            </select>
                         </div>
                         <div className="mb-2">
                             <label className="form-label">Kolom Komentar</label>
