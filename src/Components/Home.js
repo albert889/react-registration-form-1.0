@@ -7,6 +7,24 @@ import { Table } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Navbar";
 
+var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0,
+};
+
+function success(pos) {
+  var crd = pos.coords;
+  console.log("Your current position is:");
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+}
+
+function errors(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
 export default class Home extends Component {
   state = {
     user: {},
@@ -14,10 +32,36 @@ export default class Home extends Component {
     email: "",
     data: [],
     loading: false,
+    location: {},
   };
+
   componentDidMount() {
     this.fetchdata();
-}
+    this.handleGetLocation();
+  }
+
+  handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.permissions
+        .query({ name: "geolocation" })
+        .then(function (result) {
+          if (result.state === "granted") {
+            console.log(result.state);
+            //If granted then you can directly call your function here
+            navigator.geolocation.getCurrentPosition(success);
+          } else if (result.state === "prompt") {
+            navigator.geolocation.getCurrentPosition(success, errors, options);
+          } else if (result.state === "denied") {
+            //If denied then you have to show instructions to enable location
+          }
+          result.onchange = function () {
+            console.log(result);
+          };
+        });
+    } else {
+      alert("Sorry Not available!");
+    }
+  };
 
   fetchdata = () => {
     this.setState({ loading: true });
@@ -48,7 +92,6 @@ export default class Home extends Component {
       });
   };
 
-
   render() {
     console.log(this.state.user);
     console.log(this.state.data, "data");
@@ -57,8 +100,7 @@ export default class Home extends Component {
         <Navbar value={true} />
         <Container className="container-home">
           <div className="d-flex bd-highlight">
-            <div className="p-2 flex-grow-1 bd-highlight">
-            </div>
+            <div className="p-2 flex-grow-1 bd-highlight"></div>
             <div className="p-2 bd-highlight">
               <a href="/add-student" type="button" className="btn-add-product">
                 Tambah Mahasiswa
