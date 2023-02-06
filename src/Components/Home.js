@@ -42,16 +42,15 @@ export default class Home extends Component {
     this.handleGetLocation();
     this.handleGetResponseLocation();
   }
-  heandleGetLocation = async ()=>{
-    const response = await axios.get(
-      'https://ipapi.co/json');
+  heandleGetLocation = async () => {
+    const response = await axios.get("https://ipapi.co/json");
     return response.data;
-  }
-  handleGetResponseLocation = async () =>{
+  };
+  handleGetResponseLocation = async () => {
     const response = await this.heandleGetLocation();
-    const locat = response.city +", "+response.region;
-    this.setState({ location : locat})
-  }
+    const locat = response.city + ", " + response.region;
+    this.setState({ location: locat });
+  };
 
   handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -123,45 +122,47 @@ export default class Home extends Component {
           <h2>Daftar Mahasiswa</h2>
           <Card>
             {!this.state.loading ? (
-              <Table>
-                <thead>
-                  <tr>
-                    <th>NIM</th>
-                    <th>Nama</th>
-                    <th>Alamat</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Hobi</th>
-                    <th>Kolom Komentar</th>
-                    <th>Lokasi</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.state.data.map((item) => {
-                    return (
-                      <tr key={item.id}>
-                        <th width="300px">{item.nim}</th>
-                        <td width="450px">{item.name}</td>
-                        <td width="450px">{item.address}</td>
-                        <td width="450px">{item.gender}</td>
-                        <td width="450px">{item.hobby}</td>
-                        <td width="450px">{item.comment}</td>
-                        <td width="450px">{this.state.location}</td>
-                        <td>
-                          <Button
-                            color="danger"
-                            onClick={() => this.deleteData(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-          ) : (
-            <div></div>
+              <div className="table-responsive">
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>NIM</th>
+                      <th>Nama</th>
+                      <th>Alamat</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Hobi</th>
+                      <th>Kolom Komentar</th>
+                      <th>Lokasi</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.data.map((item) => {
+                      return (
+                        <tr key={item.id}>
+                          <th width="300px">{item.nim}</th>
+                          <td width="450px">{item.name}</td>
+                          <td width="450px">{item.address}</td>
+                          <td width="450px">{item.gender}</td>
+                          <td width="450px">{item.hobby}</td>
+                          <td width="450px">{item.comment}</td>
+                          <td width="450px">{this.state.location}</td>
+                          <td>
+                            <Button
+                              color="danger"
+                              onClick={() => this.deleteData(item.id)}
+                            >
+                              Hapus
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </div>
+            ) : (
+              <div></div>
             )}
           </Card>
         </Container>
