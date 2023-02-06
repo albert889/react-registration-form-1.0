@@ -7,6 +7,7 @@ import { Table } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Navbar";
 import Loader from "./Loader";
+import axios from "axios";
 
 var options = {
   enableHighAccuracy: true,
@@ -33,12 +34,23 @@ export default class Home extends Component {
     email: "",
     data: [],
     loading: false,
-    location: {},
+    location: "",
   };
 
   componentDidMount() {
     this.fetchdata();
     this.handleGetLocation();
+    this.handleGetResponseLocation();
+  }
+  heandleGetLocation = async ()=>{
+    const response = await axios.get(
+      'https://ipapi.co/json');
+    return response.data;
+  }
+  handleGetResponseLocation = async () =>{
+    const response = await this.heandleGetLocation();
+    const locat = response.city +", "+response.region;
+    this.setState({ location : locat})
   }
 
   handleGetLocation = () => {
@@ -127,14 +139,14 @@ export default class Home extends Component {
                 <tbody>
                   {this.state.data.map((item) => {
                     return (
-                      <tr key={item.i}>
+                      <tr key={item.id}>
                         <th width="300px">{item.nim}</th>
                         <td width="450px">{item.name}</td>
                         <td width="450px">{item.address}</td>
                         <td width="450px">{item.gender}</td>
                         <td width="450px">{item.hobby}</td>
                         <td width="450px">{item.comment}</td>
-                        <td width="450px">{item.location}</td>
+                        <td width="450px">{this.state.location}</td>
                         <td>
                           <Button
                             color="danger"
